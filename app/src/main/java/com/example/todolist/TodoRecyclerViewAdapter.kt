@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.databinding.ItemTodoBinding
 import com.example.todolist.db.TodoEntity
 
-class TodoRecyclerViewAdapter(private val todoList : ArrayList<TodoEntity>): RecyclerView.Adapter<TodoRecyclerViewAdapter.MyViewHolder>() {
-
+class TodoRecyclerViewAdapter(private val todoList : ArrayList<TodoEntity>, private val listener: OnItemLongClickListener): RecyclerView.Adapter<TodoRecyclerViewAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(binding : ItemTodoBinding) : RecyclerView.ViewHolder(binding.root) {
         val tvImportance = binding.tvImportance
@@ -35,6 +34,12 @@ class TodoRecyclerViewAdapter(private val todoList : ArrayList<TodoEntity>): Rec
         }
         holder.tvImportance.text = todoData.importance.toString()
         holder.tvTitle.text = todoData.title
+
+        holder.root.setOnLongClickListener {
+            listener.onLongClick(position)
+            false
+        }
+
     }
 
     // 아이템의 개수를 반환함.
